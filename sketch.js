@@ -1,5 +1,7 @@
 var gameState = "start";
 var gameState2 = "1";
+var gameState3 = "1";
+var gameState4 = "1";
 var background_img;
 var buttons;
 var form;
@@ -18,18 +20,19 @@ var boyImg,boyImg2,boyImg3,boy;
 var bg_img2,bgImg3;
 var wall_img,wall_img2,wall1,wall2,wall3,wall4,wall5,wall6,wall7,wall8;
 var invisibleGround,invisibleGround2,invisibleGround3,invisibleGround4,invisibleGround5;
-var leftArrow,rightArrow,upArrow,downArrow,leftArrow_img,rightArrow_img,upArrow_img,downArrow_img;
-var fire1,fire2,fire3,fire4,fire5,fire6,fire7,fire8,fire_img;
+var fire,fire_img,fireGroup;
 var monster,monsterImg; 
 var slingshot;
 var stone,stone_Img;
 var stone2;
-var keyImg,key,key2,key3;
+var keyImg,key1,key2,key3;
 var ground;
 var obstacle,obstacle_Img,obstacleGroup;
-var spine,spine2,spine3,spine4,spine5,spine_img,spine_img2,spine_img3,spine_img4;
-var visible = false;
-var startTimehr,startTimemin,startTimesec,endTimehr,endTimemin,endTimesec,timerhr,timermin,timersec,timehr,timemin,timesec;
+var spine,spine2,spine3,spine4,spine5,spine_img,spine_img2,spine_img3,spine_img4,spine_img5,spineGroup;
+var resetButton;
+var keyCount = 0,keyCount2 = 0;
+var timeRemainingMinutes = 2;
+var timeRemainingSeconds = 59; 
 
 function preload() {
   background_img = loadImage("Background img.png");
@@ -40,10 +43,6 @@ function preload() {
   bg_img2 = loadImage("Mario game bg.png");
   wall_img = loadImage("Brick.gif");
   wall_img2 = loadImage("Brick2.jpeg");
-  leftArrow_img = loadImage("left arrow.png");
-  rightArrow_img = loadImage("right arrow.png");
-  upArrow_img = loadImage("up arrow.png");
-  downArrow_img = loadImage("down arrow.png");
   fire_img = loadImage("fire.png");
   monsterImg = loadImage("Monster.png");
   bgImg3 = loadImage("download (1).png");
@@ -54,6 +53,7 @@ function preload() {
   spine_img2 = loadImage("cactus2.png");
   spine_img3 = loadImage("cactus3.png");
   spine_img4 = loadImage("cactus4.png");
+  spine_img5 = loadImage("Spine.png");
 }
 
 function setup() { 
@@ -65,6 +65,8 @@ function setup() {
   world = engine.world; 
 
   obstacleGroup = new Group();
+  fireGroup = new Group();
+  spineGroup = new Group();
 
   boy = createSprite(380,30); 
   boy.addAnimation("boy",boyImg);
@@ -103,178 +105,139 @@ function setup() {
   invisibleGround5 = createSprite(1040,200,30,70);
   invisibleGround5.visible = false;
 
-    wall1 = createSprite(150,380);
-    wall1.addImage(wall_img);
-    wall1.scale = 0.7;
+  wall1 = createSprite(150,380);
+  wall1.addImage(wall_img);
+  wall1.scale = 0.7;
 
-    wall2 = createSprite(450,220);
-    wall2.addImage(wall_img);
-    wall2.scale = 0.7;
-    wall2.velocityX = -5;
+  wall2 = createSprite(450,220);
+  wall2.addImage(wall_img);
+  wall2.scale = 0.7;
+  wall2.velocityX = -5;
 
-    wall3 = createSprite(520,440);
-    wall3.addImage(wall_img2);
-    wall3.scale = 0.7;
+  wall3 = createSprite(520,440);
+  wall3.addImage(wall_img2);
+  wall3.scale = 0.7;
 
-    wall4 = createSprite(630,440);
-    wall4.addImage(wall_img2);
-    wall4.scale = 0.7;
+  wall4 = createSprite(630,440);
+  wall4.addImage(wall_img2);
+  wall4.scale = 0.7;
 
-    wall5 = createSprite(960,200);
-    wall5.addImage(wall_img);
-    wall5.scale = 0.7;
-    wall5.velocityX = -5;
+  resetButton = createButton("RESET");
+  resetButton.position(350,camera.y+500);
+  resetButton.style('width', '80px');
+  resetButton.style('height', '40px');
+  resetButton.style('background', 'orange');
 
-    wall6 = createSprite(1080,360);
-    wall6.addImage(wall_img);
-    wall6.scale = 0.7;
+  wall5 = createSprite(960,200);
+  wall5.addImage(wall_img);
+  wall5.scale = 0.7;
+  wall5.velocityX = -5;
 
-    wall7 = createSprite(1240,430);
-    wall7.addImage(wall_img2);
-    wall7.scale = 0.8;
+  wall6 = createSprite(1080,360);
+  wall6.addImage(wall_img);
+  wall6.scale = 0.7;
 
-    key = createSprite(575,470);
-    key.addImage("key",keyImg);
-    key.scale = 0.4;
+  wall7 = createSprite(1240,430);
+  wall7.addImage(wall_img2);
+  wall7.scale = 0.8;
 
-    key2 = createSprite(450,90);
-    key2.addImage("key2",keyImg);
-    key2.scale = 0.3;
+  key1 = createSprite(575,470);
+  key1.addImage("key",keyImg);
+  key1.scale = 0.4;
 
-    key3 = createSprite(1200,470);
-    key3.addImage("key3",keyImg);
-    key3.scale = 0.3;
+  key2 = createSprite(450,90);
+  key2.addImage("key2",keyImg);
+  key2.scale = 0.3;
 
-    spine = createSprite(1280,390);
-    spine.addImage("spine",spine_img3);
-    spine.scale = 0.15;
+  key3 = createSprite(1200,470);
+  key3.addImage("key3",keyImg);
+  key3.scale = 0.3;
 
-    spine3 = createSprite(520,340);
-    spine3.addImage("spine3",spine_img2);
-    spine3.scale = 0.15;
+  buttons = new Buttons();
+  //buttons.display();
 
-    buttons = new Buttons();
-    buttons.display();
+  form = new Form();
 
-    form = new Form();
+  cardboard1 = createSprite(790,300,20,600);
+  cardboard2 = createSprite(10,300,20,600);
+  cardboard3 = createSprite(170,590,340,20);
+  cardboard4 = createSprite(630,590,340,20);
+  cardboard5 = createSprite(330,560,20,80);
+  cardboard6 = createSprite(305,530,150,20);
+  cardboard7 = createSprite(240,420,20,200);
+  cardboard8 = createSprite(245,310,310,20);
+  cardboard9 = createSprite(100,350,20,100);
+  cardboard10 = createSprite(170,10,340,20);
+  cardboard11 = createSprite(630,10,340,20);
+  cardboard12 = createSprite(470,40,20,80);
+  cardboard13 = createSprite(220,40,20,80);
+  cardboard14 = createSprite(100,160,20,160);
+  cardboard15 = createSprite(215,230,250,20);
+  cardboard16 = createSprite(330,155,20,150);
+  cardboard17 = createSprite(400,90,160,20);
+  cardboard18 = createSprite(175,160,150,20);
+  cardboard19 = createSprite(570,125,20,90);
+  cardboard20 = createSprite(495,230,170,20);
+  cardboard21 = createSprite(495,170,170,20);
+  cardboard22 = createSprite(420,200,20,80);
+  cardboard23 = createSprite(390,340,20,80);
+  cardboard24 = createSprite(430,370,100,20);
+  cardboard25 = createSprite(490,300,20,160);
+  cardboard26 = createSprite(325,410,20,60);
+  cardboard27 = createSprite(397.5,450,165,20);
+  cardboard28 = createSprite(470,515,20,150);
+  cardboard29 = createSprite(85,470,170,20);
+  cardboard30 = createSprite(160,510,20,60);
+  cardboard31 = createSprite(715,135,130,20);
+  cardboard32 = createSprite(660,170,20,200);
+  cardboard33 = createSprite(590,415,20,210);
+  cardboard34 = createSprite(630,400,100,20);
+  cardboard35 = createSprite(670,455,20,130);
+  cardboard36 = createSprite(720,510,120,20);  
 
-    cardboard1 = createSprite(790,300,20,600);
-    cardboard2 = createSprite(10,300,20,600);
-    cardboard3 = createSprite(170,590,340,20);
-    cardboard4 = createSprite(630,590,340,20);
-    cardboard5 = createSprite(330,560,20,80);
-    cardboard6 = createSprite(305,530,150,20);
-    cardboard7 = createSprite(240,420,20,200);
-    cardboard8 = createSprite(245,310,310,20);
-    cardboard9 = createSprite(100,350,20,100);
-    cardboard10 = createSprite(170,10,340,20);
-    cardboard11 = createSprite(630,10,340,20);
-    cardboard12 = createSprite(470,40,20,80);
-    cardboard13 = createSprite(220,40,20,80);
-    cardboard14 = createSprite(100,160,20,160);
-    cardboard15 = createSprite(215,230,250,20);
-    cardboard16 = createSprite(330,155,20,150);
-    cardboard17 = createSprite(400,90,160,20);
-    cardboard18 = createSprite(175,160,150,20);
-    cardboard19 = createSprite(570,125,20,90);
-    cardboard20 = createSprite(495,230,170,20);
-    cardboard21 = createSprite(495,170,170,20);
-    cardboard22 = createSprite(420,200,20,80);
-    cardboard23 = createSprite(390,340,20,80);
-    cardboard24 = createSprite(430,370,100,20);
-    cardboard25 = createSprite(490,300,20,160);
-    cardboard26 = createSprite(325,410,20,60);
-    cardboard27 = createSprite(397.5,450,165,20);
-    cardboard28 = createSprite(470,515,20,150);
-    cardboard29 = createSprite(85,470,170,20);
-    cardboard30 = createSprite(160,510,20,60);
-    cardboard31 = createSprite(715,135,130,20);
-    cardboard32 = createSprite(660,170,20,200);
-    cardboard33 = createSprite(590,415,20,210);
-    cardboard34 = createSprite(630,400,100,20);
-    cardboard35 = createSprite(670,455,20,130);
-    cardboard36 = createSprite(720,510,120,20);  
+  monster = createSprite(2500,490);
+  monster.addAnimation("monster",monsterImg);
+  monster.addAnimation("monster2",keyImg);
+  monster.scale = 0.4;
 
-    monster = createSprite(900,490);
-    monster.addAnimation("monster",monsterImg);
-    monster.addAnimation("monster2",keyImg);
-    monster.scale = 0.4;
+  monster2 = createSprite(4500,490);
+  monster2.addAnimation("monster",monsterImg);
+  monster2.addAnimation("monster2",keyImg);
+  monster2.scale = 0.4;
 
-    /*for(var i = wall1.x-60; i<wall1.x+70;i+=40) {
-      spine2 = createSprite(i,wall1.y+40);
-      spine2.addImage("spine2",spine_img);
-      spine2.scale = 0.15;
-      spine2.visible = false;
-    }
-  
-    for(var i = wall4.y-20; i<wall4.y+70;i+=50) {
-      spine4 = createSprite(wall4.x+40,i);
-      spine4.addImage("spine4",spine_img3);
-      spine4.scale = 0.15;
-      spine4.visible = false;
-    }
-  
-    for(var i = 800; i<1000;i+=40) {
-      spine5 = createSprite(i,470);
-      spine5.addImage("spine5",spine_img2);
-      spine5.scale = 0.15;
-      spine5.visible = false;
-    }*/
+  monster3 = createSprite(6500,490);
+  monster3.addAnimation("monster",monsterImg);
+  monster3.addAnimation("monster2",keyImg);
+  monster3.scale = 0.4;
 
-   /* for(var i = wall1.x-60; i<wall1.x+70;i+=40) {
-      spine2 = createSprite(i,wall1.y+40);
-      spine2.addImage("spine2",spine_img);
-      spine2.scale = 0.15;
-    }
-  
-    for(var i = wall4.y-20; i<wall4.y+70;i+=50) {
-      spine4 = createSprite(wall4.x+40,i);
-      spine4.addImage("spine4",spine_img3);
-      spine4.scale = 0.15;
-    }
-  
-    for(var i = 800; i<1000;i+=40) {
-      spine5 = createSprite(i,470);
-      spine5.addImage("spine5",spine_img2);
-      spine5.scale = 0.15;
-    }*/
+  spine = createSprite(1280,390);
+  spine.addImage("spine",spine_img3);
+  spine.scale = 0.15;
+
+  spine2 = createSprite(wall1.x,wall1.y+40);
+  spine2.addImage("spine2",spine_img);
+  spine2.scale = 0.15;
+
+  spine3 = createSprite(520,340);
+  spine3.addImage("spine3",spine_img2);
+  spine3.scale = 0.15;
+    
+  spine4 = createSprite(wall5.x,470);
+  spine4.addImage("spine4",spine_img2);
+  spine4.scale = 0.15;
+
+  spine5 = createSprite(1000,ground.y-35);
+  spine5.addImage("spine5",spine_img5);
 } 
 
 function draw() { 
   background(background_img);
   Engine.update(engine);
-  
-  for(var i = 1;i<10;i+=1) {
-    var fire = "fire" + i;
-    fire.debug = true;
-  }
 
   wall2.bounceOff(invisibleGround);
   wall2.bounceOff(invisibleGround2);
   wall5.bounceOff(invisibleGround4);
   wall5.bounceOff(invisibleGround5);
-  
-  if((gameState!=="start" || gameState!=="form") && gameState!=="level2" && gameState!=="level3") {
-    if(displayWidth<1500) {
-      if(mousePressedOver(leftArrow) || keyDown("left")) {
-        boy.x-=10;
-        boy.changeAnimation("boy2",boyImg2);
-      }
-  
-      if(mousePressedOver(upArrow) || keyDown("up")) {
-        boy.y-=10;
-      }
-  
-      if(mousePressedOver(downArrow) || keyDown("down")) {
-        boy.y+=10;
-      }
-  
-      if(mousePressedOver(rightArrow) || keyDown("right")) {
-        boy.x+=10;
-        boy.changeAnimation("boy",boyImg);
-      }
-    }
-  }
 
   stone2.x = stone.body.position.x;
   stone2.y = stone.body.position.y;
@@ -318,15 +281,42 @@ function draw() {
 
   if(gameState==="start") { 
     game.start(); 
+    buttons.display();
   } 
   
   if(gameState==="form") { 
     form.display();
-    game.start2();
+    game.form();
   } 
+
+  console.log(boy.x,boy.y,gameState);
+
+  if(gameState==="countdown") {
+    game.countdown();
+
+    countdown("level1");
+  }
   
   if(gameState==="level1") { 
     game.play1(); 
+
+    if(keyDown("left")) {
+      boy.x-=10;
+      boy.changeAnimation("boy2",boyImg2);
+    }
+    
+    if(keyDown("up")) {
+      boy.y-=10;
+    }
+    
+    if(keyDown("down")) {
+      boy.y+=10;
+    }
+    
+    if(keyDown("right")) {
+      boy.x+=10;
+      boy.changeAnimation("boy",boyImg);
+    }
 
     boy.setCollider("rectangle",0,0,boy.width+50,boy.height+80);
 
@@ -370,42 +360,68 @@ function draw() {
     if(boy.isTouching(door)) {
       boy.x = 50;
       boy.y = 470;
-      gameState = "level2";
+      gameState = "countdown2";
     }
+  }
+
+  if(gameState==="countdown2") {
+    game.countdown2();
+
+    countdown("level2");
   }
 
    if(gameState==="level2") {
     game.play2();
 
+    spine.debug = true;
+
     camera.x = boy.x +300;
 
-    if(displayWidth<1500) {
-      if(mousePressedOver(leftArrow) || keyDown("left")) {
-        boy.x-=20;
-        boy.changeAnimation("boy2",boyImg2);
-      }
+    boy.changeAnimation("boy3",boyImg3);
+
+    if(keyDown("left")) {
+      boy.x-=20;
+      boy.changeAnimation("boy2",boyImg2);
+    }
   
-      if(mousePressedOver(upArrow) || keyDown("up")) {
-        boy.y-=20;
-      }
+    if(keyDown("up")) {
+      boy.y-=20;
+    }
   
-      if(mousePressedOver(downArrow) || keyDown("down")) {
-        boy.y+=20;
-      }
+    if(keyDown("down")) {
+      boy.y+=20;
+    }
   
-      if(mousePressedOver(rightArrow) || keyDown("right")) {
-        boy.x+=20;
-        boy.changeAnimation("boy",boyImg);
-      }
+    if(keyDown("right")) {
+      boy.x+=20;
+      boy.changeAnimation("boy",boyImg);
     } 
 
     boy.velocityY = 8;
 
     boy.collide(wall1);
-    boy.collide(wall2);
+
+    if(boy.isTouching(wall2)) {
+      boy.collide(wall2);
+    }else {
+      boy.velocityX = 0;
+    }
+
+    if(boy.isTouching(wall5)) {
+      boy.collide(wall5);
+    }else {
+      boy.velocityX = 0;
+    }
+
+    if(boy.isTouching(spine)/* || boy.isTouching(spine2) || boy.isTouching(spine3) || boy.isTouching(spine4) || boy.isTouching(spine5)*/) {
+        gameState = "end";
+    }
+
+    spine.setCollider("rectangle",0,0,300,300);
+    
     boy.collide(wall3);
     boy.collide(wall4);
-    boy.collide(wall5);
+
     boy.collide(wall6);
     boy.collide(wall7);
     boy.collide(invisibleGround3);
@@ -414,41 +430,44 @@ function draw() {
     door.x = 1270;
     door.y = 480;
 
-    for(var i = wall1.x-60; i<wall1.x+70;i+=40) {
-      spine2 = createSprite(i,wall1.y+40);
-      spine2.addImage("spine2",spine_img);
-      spine2.scale = 0.15;
-    }
-  
-    for(var i = wall4.y-20; i<wall4.y+70;i+=50) {
-      spine4 = createSprite(wall4.x+40,i);
-      spine4.addImage("spine4",spine_img3);
-      spine4.scale = 0.15;
-    }
-  
-    for(var i = 800; i<1000;i+=40) {
-      spine5 = createSprite(i,470);
-      spine5.addImage("spine5",spine_img2);
-      spine5.scale = 0.15;
-    }
+    boy.setCollider("rectangle",0,0,boy.width+30,boy.height+80);
 
-    if(boy.isTouching(key)) {
-      key.destroy();
+    if(boy.isTouching(key1)) {
+      key1.destroy();
+      keyCount+=1;
     }
 
     if(boy.isTouching(key2)) {
       key2.destroy();
+      keyCount+=1;
     }
 
     if(boy.isTouching(key3)) {
       key3.destroy();
+      keyCount+=1;
     }
 
-    if(boy.isTouching(door)) {
-      boy.x = 100;
+    if(boy.isTouching(door) && keyCount===3) {
+      boy.x = 10;
       boy.y = 510;
       gameState = "level3";
     }
+
+    if(boy.isTouching(door) && keyCount<3) {
+      push()
+       fill("red");
+       noStroke();
+       textSize(20);
+       text("!! All Keys Should be collected first !!",camera.x-125,280);
+       text("_____________________________",camera.x-125,290);
+      pop();
+    }
+  }
+
+  if(gameState==="countdown3") {
+      game.countdown3();
+
+      countdown("gameState3");
   }
   
   if(gameState==="level3") {
@@ -456,42 +475,52 @@ function draw() {
 
     spawnStones();
 
-    if(obstacleGroup.isTouching(ground)) {
-       obstacleGroup.destroyEach();
+    if(gameState2==="1") {
+      spawnFires(monster);
+    }
+    
+    if(gameState3==="1") {
+      spawnFires(monster2);
     }
 
-    if(obstacleGroup.isTouching(boy)) {
+    if(gameState4==="1") {
+      spawnFires(monster3);
+    }
+
+    boy.setCollider("rectangle",-15,0,120,150);
+
+    if(obstacleGroup.isTouching(ground)) {
       obstacleGroup.destroyEach();
+    }
+
+    if(fireGroup.isTouching(ground)) {
+      fireGroup.destroyEach();
     }
 
     slingshot.pointB.x = boy.x + 20;
     slingshot.pointB.y = boy.y + 5;
 
-    buttons.hide();
-
     boy.changeAnimation("boy3",boyImg3);
 
-    if(displayWidth<1500 && boy.y > 350) {
-      if(mousePressedOver(leftArrow) || keyDown("left")) {
-        boy.x-=20;
-        boy.changeAnimation("boy2",boyImg2);
-      }
+    if(keyDown("left")) {
+      boy.x-=20;
+      boy.changeAnimation("boy2",boyImg2);
+    }
   
-      if(mousePressedOver(upArrow) || keyDown("up")) {
-        boy.y-=20;
-      }
+    if(keyDown("up")) {
+      boy.y-=20;
+    }
   
-      if(mousePressedOver(downArrow) || keyDown("down")) {
-        boy.y+=20;
-      }
+    if(keyDown("down")) {
+      boy.y+=20;
+    }
   
-      if(mousePressedOver(rightArrow) || keyDown("right")) {
-        boy.x+=20;
-        boy.changeAnimation("boy",boyImg);
-      }
+    if(keyDown("right")) {
+      boy.x+=20;
+      boy.changeAnimation("boy",boyImg);
     }
 
-    camera.x = boy.x +300;
+    camera.x = boy.x +200;
 
     boy.collide(ground);
 
@@ -501,22 +530,140 @@ function draw() {
       slingshot.attach(stone.body);
     }
 
-    if(stone2.isTouching(monster)) { 
+    if(boy.isTouching(monster) && gameState2==="1") { 
+      gameState = "end";
+      obstacleGroup.destroyEach();
+    }
+
+    if(boy.isTouching(monster2) && gameState3==="1") { 
+      gameState = "end";
+      obstacleGroup.destroyEach();
+    }
+
+    if(boy.isTouching(monster3) && gameState4==="1") { 
+      gameState = "end";
+      obstacleGroup.destroyEach();
+    }
+
+    if(boy.isTouching(obstacleGroup)) { 
+      gameState = "end";
+      obstacleGroup.destroyEach();
+    }
+
+
+    if(boy.isTouching(fireGroup)) { 
+      obstacleGroup.destroyEach();
+      gameState = "end";
+    }
+    
+    if(stone2.isTouching(monster) && gameState2==="1") { 
        monster.changeAnimation("monster2",keyImg);
        monster.scale = 0.5;
+       obstacleGroup.destroyEach();
+       gameState2 = "2";
     }
+
+    if(stone2.isTouching(monster2) && gameState3==="1") { 
+      monster2.changeAnimation("monster2",keyImg);
+      monster2.scale = 0.5;
+      obstacleGroup.destroyEach();
+      gameState3 = "2";
+    }
+
+    if(stone2.isTouching(monster3) && gameState4==="1") { 
+      monster3.changeAnimation("monster2",keyImg);
+      monster3.scale = 0.5;
+      obstacleGroup.destroyEach();
+      gameState4 = "2";
+    }
+
+    if(gameState2==="2") {
+       if(boy.isTouching(monster)) {
+         monster.destroy();
+         keyCount2+=1;
+       }
+    }
+
+    if(gameState3==="2") {
+      if(boy.isTouching(monster2)) {
+        monster2.destroy();
+        keyCount2+=1;
+      }
+    }
+      
+    if(gameState4==="2") {
+      if(boy.isTouching(monster3)) {
+        monster3.destroy();
+        keyCount2+=1
+      }
+    }
+      
 
     stone.display();
     slingshot.display();
 
     boy.scale = 0.7;
-    door.destroy();
+  }
+
+  if(gameState==="end") {
+    background(0);
+
+    game.end();
+
+    text("Time Remaining:- 00:00",20,150);
+
+    boy.velocityY = 0;
+
+    key1.visible = false;
+    key2.visible = false;
+    key3.visible = false;
+
+    strokeWeight(5);
+    stroke(0,0,255);
+    fill(255,255,0);
+    textSize(100);
+    text("GAME OVER",camera.x-300,camera.y+40);
+  }
+  
+  if(gameState!=="end") {
+    /*textSize(10);
+    text(mouseX + "," + mouseY + "," + camera.x,camera.x-400,camera.y);*/
+
+    if(timeRemainingSeconds===0) {
+      timeRemainingSeconds = 59;
+      timeRemainingMinutes = timeRemainingMinutes - 1;
+    }
+  
+    if(timeRemainingMinutes===0 && timeRemainingSeconds < 1.1) {
+       gameState = "end";
+    }
+  }
+
+  if(gameState!=="start" && gameState!=="end" && gameState!=="form" && gameState!=="countdown" && gameState!=="countdown2" && gameState!=="countdown3") {
+    if(frameCount%30===0) {
+      timeRemainingSeconds = timeRemainingSeconds - 1;
+    }
+    
+    if(timeRemainingSeconds>9) {
+      fill(0);
+      noStroke();
+      textSize(20);
+      text("Time Remaining:- " + timeRemainingMinutes + ":" + timeRemainingSeconds,camera.x+100,50);
+    }
+
+    if(timeRemainingSeconds<=9) {
+      fill(0);
+      noStroke();
+      textSize(20);
+      text("Time Remaining:- " + timeRemainingMinutes + ":" + "0" + timeRemainingSeconds,camera.x+100,50);
+    }
+
+    if(timeRemainingMinutes===0 && timeRemainingSeconds===0) {
+        gameState = "end";
+    }
   }
   
   drawSprites(); 
- 
-  fill(0);
-  text(mouseX + "," + mouseY + "," + camera.x,200,200);
 }
 
 function mouseDragged() {
@@ -534,12 +681,37 @@ function mouseReleased(){
 }
 
 function spawnStones() {
-  if(frameCount%80===0) {
+  if(frameCount%200===0) {
    obstacle = createSprite(Math.round(random(camera.x-400,camera.x+400)),0);
    obstacle.addImage("obstacle",obstacle_Img);
-   obstacle.velocityY = 7;
+   obstacle.velocityY = 10;
    obstacle.scale = 0.5;
    obstacle.lifetime = 200;
    obstacleGroup.add(obstacle);
   }
+}
+
+function spawnFires(monster) {
+  if(frameCount%250===0) {
+   fire = createSprite(monster.x-40,monster.y-10);
+   fire.addImage("fire",fire_img);
+   fire.velocityX = -13;
+   fire.velocityY = 1;
+   fire.scale = 0.9;
+   fire.lifetime = 25;
+   fireGroup.add(fire);
+  }
+}
+
+function countdown(state) {
+   background(0,0,255);
+
+   if(keyDown("space")) {
+      gameState = state;
+   }
+
+   fill(255,105,180);
+   textSize(30);
+   text("PRESS SPACE KEY TO START THE NEXT LEVEL",camera.x-350,camera.y);
+   text("___________________________________________",camera.x-360,camera.y+10);
 }

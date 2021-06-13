@@ -4,7 +4,7 @@ class Game {
     }
 
     start() {
-      key.visible = false;
+      key1.visible = false;
       key2.visible = false;
       key3.visible = false;
 
@@ -57,23 +57,87 @@ class Game {
       wall6.visible = false;
       wall7.visible = false;
       spine.visible = false;
-      //spine2.visible = false;
+      spine2.visible = false;
       spine3.visible = false;
-      //spine4.visible = false;
-      //spine5.visible = false;
+      spine4.visible = false;
+      spine5.visible = false;
+
+      resetButton.hide();
    }
 
-   start2() {
+   form() {
+      background(background_img);
+
+      key1.visible = false;
+      key2.visible = false;
+      key3.visible = false;
+
       buttons.hide();
       player = new Player();
       player.getCount();
+      resetButton.hide();
+   }
 
-      if(displayWidth<1500) {
-        leftArrow.visible = false;
-        rightArrow.visible = false;
-        upArrow.visible = false;
-        downArrow.visible = false;
-      }
+   countdown() {
+      key1.visible = false;
+      key2.visible = false;
+      key3.visible = false;
+
+      cardboard1.visible = false;
+      cardboard2.visible = false;
+      cardboard3.visible = false;
+      cardboard4.visible = false;
+      cardboard5.visible = false;
+      cardboard6.visible = false;
+      cardboard7.visible = false;
+      cardboard8.visible = false;
+      cardboard9.visible = false;
+      cardboard10.visible = false;
+      cardboard11.visible = false;
+      cardboard12.visible = false;
+      cardboard13.visible = false;
+      cardboard14.visible = false;
+      cardboard15.visible = false;
+      cardboard16.visible = false;
+      cardboard17.visible = false;
+      cardboard18.visible = false;
+      cardboard19.visible = false;
+      cardboard20.visible = false;
+      cardboard21.visible = false;
+      cardboard22.visible = false;
+      cardboard23.visible = false;
+      cardboard24.visible = false;
+      cardboard25.visible = false;
+      cardboard26.visible = false;
+      cardboard27.visible = false;
+      cardboard28.visible = false;
+      cardboard29.visible = false;
+      cardboard30.visible = false;
+      cardboard31.visible = false;
+      cardboard32.visible = false;
+      cardboard33.visible = false;
+      cardboard34.visible = false;
+      cardboard35.visible = false;
+      cardboard36.visible = false;
+
+      ground.visible = false;
+      monster.visible = false;
+      boy.visible = false; 
+      door.visible = false;
+      wall1.visible = false;
+      wall2.visible = false;
+      wall3.visible = false;
+      wall4.visible = false;
+      wall5.visible = false;
+      wall6.visible = false;
+      wall7.visible = false;
+      spine.visible = false;
+      spine2.visible = false;
+      spine3.visible = false;
+      spine4.visible = false;
+      spine5.visible = false;
+
+      resetButton.hide();
    }
 
    play1() {
@@ -118,13 +182,68 @@ class Game {
 
      boy.visible = true; 
      door.visible = true;
+   }
 
-     if(displayWidth<1500) {
-       leftArrow.visible = true;
-       rightArrow.visible = true;
-       upArrow.visible = true;
-       downArrow.visible = true;
-     }   
+   countdown2() {
+      key1.visible = false;
+      key2.visible = false;
+      key3.visible = false;
+
+      cardboard1.visible = false;
+      cardboard2.visible = false;
+      cardboard3.visible = false;
+      cardboard4.visible = false;
+      cardboard5.visible = false;
+      cardboard6.visible = false;
+      cardboard7.visible = false;
+      cardboard8.visible = false;
+      cardboard9.visible = false;
+      cardboard10.visible = false;
+      cardboard11.visible = false;
+      cardboard12.visible = false;
+      cardboard13.visible = false;
+      cardboard14.visible = false;
+      cardboard15.visible = false;
+      cardboard16.visible = false;
+      cardboard17.visible = false;
+      cardboard18.visible = false;
+      cardboard19.visible = false;
+      cardboard20.visible = false;
+      cardboard21.visible = false;
+      cardboard22.visible = false;
+      cardboard23.visible = false;
+      cardboard24.visible = false;
+      cardboard25.visible = false;
+      cardboard26.visible = false;
+      cardboard27.visible = false;
+      cardboard28.visible = false;
+      cardboard29.visible = false;
+      cardboard30.visible = false;
+      cardboard31.visible = false;
+      cardboard32.visible = false;
+      cardboard33.visible = false;
+      cardboard34.visible = false;
+      cardboard35.visible = false;
+      cardboard36.visible = false;
+
+      ground.visible = false;
+      monster.visible = false;
+      boy.visible = false; 
+      door.visible = false;
+      wall1.visible = false;
+      wall2.visible = false;
+      wall3.visible = false;
+      wall4.visible = false;
+      wall5.visible = false;
+      wall6.visible = false;
+      wall7.visible = false;
+      spine.visible = false;
+      spine2.visible = false;
+      spine3.visible = false;
+      spine4.visible = false;
+      spine5.visible = false;
+
+      resetButton.hide();
    }
 
    play2() {
@@ -173,14 +292,15 @@ class Game {
      wall5.visible = true;
      wall6.visible = true;
      wall7.visible = true;
-     visible = true;
-     spine.visible = true;
      boy.visible = true; 
      door.visible = true;
-
-     //key.visible = true;
+     key1.visible = true;
      key2.visible = true;
      key3.visible = true;
+     spine.visible = true;
+     spine2.visible = true;
+     spine3.visible = true;
+     spine4.visible = true;
    }
 
    play3() {
@@ -194,11 +314,165 @@ class Game {
      wall5.visible = false;
      wall6.visible = false;
      wall7.visible = false;
-     visible = false;
-     spine.visible = false;
      monster.visible = true;
      ground.visible = true;
+     key1.visible = false;
+     key2.visible = false;
+     key3.visible = false;
      spine.visible = false;
+     spine2.visible = false;
      spine3.visible = false;
+     spine4.visible = false;
+     spine5.visible = true;
+     door.visible = false;
+   }
+
+   countdown3() {
+      key1.visible = false;
+      key2.visible = false;
+      key3.visible = false;
+
+      cardboard1.visible = false;
+      cardboard2.visible = false;
+      cardboard3.visible = false;
+      cardboard4.visible = false;
+      cardboard5.visible = false;
+      cardboard6.visible = false;
+      cardboard7.visible = false;
+      cardboard8.visible = false;
+      cardboard9.visible = false;
+      cardboard10.visible = false;
+      cardboard11.visible = false;
+      cardboard12.visible = false;
+      cardboard13.visible = false;
+      cardboard14.visible = false;
+      cardboard15.visible = false;
+      cardboard16.visible = false;
+      cardboard17.visible = false;
+      cardboard18.visible = false;
+      cardboard19.visible = false;
+      cardboard20.visible = false;
+      cardboard21.visible = false;
+      cardboard22.visible = false;
+      cardboard23.visible = false;
+      cardboard24.visible = false;
+      cardboard25.visible = false;
+      cardboard26.visible = false;
+      cardboard27.visible = false;
+      cardboard28.visible = false;
+      cardboard29.visible = false;
+      cardboard30.visible = false;
+      cardboard31.visible = false;
+      cardboard32.visible = false;
+      cardboard33.visible = false;
+      cardboard34.visible = false;
+      cardboard35.visible = false;
+      cardboard36.visible = false;
+
+      ground.visible = false;
+      monster.visible = false;
+      boy.visible = false; 
+      door.visible = false;
+      wall1.visible = false;
+      wall2.visible = false;
+      wall3.visible = false;
+      wall4.visible = false;
+      wall5.visible = false;
+      wall6.visible = false;
+      wall7.visible = false;
+      spine.visible = false;
+      spine2.visible = false;
+      spine3.visible = false;
+      spine4.visible = false;
+      spine5.visible = false;
+
+      resetButton.hide();
+   }
+
+   end() {
+    cardboard1.visible = false;
+    cardboard2.visible = false;
+    cardboard3.visible = false;
+    cardboard4.visible = false;
+    cardboard5.visible = false;
+    cardboard6.visible = false;
+    cardboard7.visible = false;
+    cardboard8.visible = false;
+    cardboard9.visible = false;
+    cardboard10.visible = false;
+    cardboard11.visible = false;
+    cardboard12.visible = false;
+    cardboard13.visible = false;
+    cardboard14.visible = false;
+    cardboard15.visible = false;
+    cardboard16.visible = false;
+    cardboard17.visible = false;
+    cardboard18.visible = false;
+    cardboard19.visible = false;
+    cardboard20.visible = false;
+    cardboard21.visible = false;
+    cardboard22.visible = false;
+    cardboard23.visible = false;
+    cardboard24.visible = false;
+    cardboard25.visible = false;
+    cardboard26.visible = false;
+    cardboard27.visible = false;
+    cardboard28.visible = false;
+    cardboard29.visible = false;
+    cardboard30.visible = false;
+    cardboard31.visible = false;
+    cardboard32.visible = false;
+    cardboard33.visible = false;
+    cardboard34.visible = false;
+    cardboard35.visible = false;
+    cardboard36.visible = false;
+
+    ground.visible = false;
+    monster.visible = false;
+    boy.visible = false; 
+    door.visible = false;
+    wall1.visible = false;
+    wall2.visible = false;
+    wall3.visible = false;
+    wall4.visible = false;
+    wall5.visible = false;
+    wall6.visible = false;
+    wall7.visible = false;
+    spine.visible = false;
+    spine2.visible = false;
+    spine3.visible = false;
+    spine4.visible = false;
+    spine5.visible = false;
+
+    resetButton.show();
+
+    resetButton.mousePressed(() => {
+      resetButton.hide();
+      form.input.show();
+      form.button.show();
+      camera.x = 400;
+      boy.x = 380;
+      boy.y = 30;
+      door.x = 410;
+      door.y = 565;
+      boy.scale = 0.3;
+      timeRemainingMinutes = 2;
+      timeRemainingSeconds = 59;
+      keyCount = 0;
+
+      key1 = createSprite(575,470);
+      key1.addImage("key",keyImg);
+      key1.scale = 0.4;
+
+      key2 = createSprite(450,90);
+      key2.addImage("key2",keyImg);
+      key2.scale = 0.3;
+
+      key3 = createSprite(1200,470);
+      key3.addImage("key3",keyImg);
+      key3.scale = 0.3;
+
+      gameState = "form";
+    });
    }
 }

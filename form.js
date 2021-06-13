@@ -1,7 +1,7 @@
 class Form {
     constructor() {
         this.input = createInput("Name");
-        this.button = createButton('Start Game');
+        this.button = createButton("START GAME");
         if(gameState==="start") {
             this.input.position(-200,-400);
             this.button.position(-300,-300);
@@ -20,16 +20,13 @@ class Form {
         this.button.mousePressed(()=> {
             this.input.hide();
             this.button.hide(); 
-            //player.getCount();
+            player.getCount();
             playerCount+=1;
             player.index = playerCount;
             player.update();
             player.updateCount(playerCount);
             player.name = this.input.value();
-            startTimehr = hour();
-            startTimemin = minute();
-            startTimesec = second();
-            gameState = "level1";
+            gameState = "countdown";
         });
     }
 }

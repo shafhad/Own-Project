@@ -3,8 +3,8 @@ class Slingshot {
        var options = {
            bodyA:bodyA,
            pointB:pointB,
-           stiffness: 0.4,
-           length:10
+           stiffness: 10,
+           length:5
        }
 
        this.body = Constraint.create(options);
@@ -13,8 +13,9 @@ class Slingshot {
    }
 
    attach(body){
+     
+     Matter.Body.setPosition(stone.body,{x:boy.x,y:boy.y});
      this.body.bodyA = body;
-     Matter.Body.setPosition(stone.body,{x:130,y:525});
    }
 
    fly(){
